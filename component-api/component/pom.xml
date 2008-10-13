@@ -18,6 +18,9 @@
   <packaging>jar</packaging>
   <properties>
     <deploy.target>shared</deploy.target>
+    <!-- These can be overwritten by profiles -->
+    <version.sakai>${sakai.version}</version.sakai>
+    <version.service>dev</version.service>
   </properties>
   <dependencies>
     <dependency>
@@ -44,7 +47,32 @@
           <include>**/*.properties</include>
           <include>**/*.xml</include>
         </includes>
+		<filtering>true</filtering>
       </resource>
     </resources>
   </build>
+  <profiles>
+     <profile>
+      <id>cstm-service</id>
+      <activation>
+        <property>
+          <name>local.service</name>
+        </property>
+      </activation>
+      <properties>
+        <version.service>${local.service}</version.service>
+       </properties>
+     </profile>
+     <profile>
+      <id>cstm-sakai</id>
+      <activation>
+        <property>
+          <name>local.sakai</name>
+        </property>
+      </activation>
+      <properties>
+        <version.sakai>${local.sakai}</version.sakai>
+       </properties>
+     </profile>
+  </profiles>
 </project>
