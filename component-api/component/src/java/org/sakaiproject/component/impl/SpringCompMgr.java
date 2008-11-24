@@ -38,6 +38,7 @@ import org.sakaiproject.component.api.ComponentManager;
 import org.sakaiproject.component.api.ComponentsLoader;
 import org.sakaiproject.util.NoisierDefaultListableBeanFactory;
 import org.sakaiproject.util.PropertyOverrideConfigurer;
+import org.sakaiproject.util.SakaiComponentEvent;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -252,6 +253,7 @@ public class SpringCompMgr implements ComponentManager
 		{
 			// get the singletons loaded
 			m_ac.refresh();
+			m_ac.publishEvent(new SakaiComponentEvent(this, SakaiComponentEvent.Type.STARTED));
 		}
 		catch (Throwable t)
 		{
@@ -457,6 +459,7 @@ public class SpringCompMgr implements ComponentManager
 	public void close()
 	{
 		m_hasBeenClosed = true;
+		m_ac.publishEvent(new SakaiComponentEvent(this, SakaiComponentEvent.Type.STOPPING));
 		m_ac.close();
 	}
 
