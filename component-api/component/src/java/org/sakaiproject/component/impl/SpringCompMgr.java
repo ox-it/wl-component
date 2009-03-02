@@ -257,7 +257,16 @@ public class SpringCompMgr implements ComponentManager
 		}
 		catch (Throwable t)
 		{
-			M_log.warn(t.getMessage(), t);
+			if (Boolean.valueOf(m_config.getProperty("exit.on.cm.error", "true")))
+			{
+				M_log.fatal(t.getMessage(), t);
+				M_log.fatal("Shutting down JVM");
+				System.exit(1);
+			}
+			else
+			{
+				M_log.warn(t.getMessage(), t);
+			}
 		}
 	}
 
